@@ -6,8 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
-public class DrawPanel extends JPanel implements ActionListener, KeyListener {
+public class DrawPanel extends JPanel implements ActionListener, KeyListener{
     private final int FIELD_WIDTH = 500;
     private final int FIELD_HEIGHT = 500;
     private final int STEP_LENGTH = 1;
@@ -28,18 +27,29 @@ public class DrawPanel extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) { // key char
     }
-
+    boolean right, left, up, down;
     @Override
     public void keyPressed(KeyEvent e) { // key int
         switch(e.getKeyCode()){
-            //case 37 -> //left
-            case 38 -> x_head--;//up
-            //case 40 -> //down
-            //case 39 -> //right
-
-
+            case 37 -> {
+                left = true;
+                right = false; down = false; up = false;
+            }//left
+            case 38 -> {
+                up = true;
+                right = false; down = false; left = false;
+            }//up
+            case 40 -> {
+                down = true;
+                right = false; up = false; left = false;
+            }//down
+            case 39 -> {
+                right = true;
+                up = false; down = false; left = false;
+            }//right
         }
     }
+
     @Override
     public void keyReleased(KeyEvent e) { // key when released
         System.out.println("you typed key int: " + e.getKeyCode());
@@ -55,6 +65,11 @@ public class DrawPanel extends JPanel implements ActionListener, KeyListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        // change direction
+        if(right) x_head+=STEP_LENGTH;
+        if(left) x_head-=STEP_LENGTH;
+        if(up) y_head-=STEP_LENGTH;
+        if(down) y_head+=STEP_LENGTH;
         // managing the collision with the walls
         if(x_head + ImagesScaller.getIMAGE_WIDTH() == FIELD_WIDTH) x_head = 0;
         //if(x_head - ImagesScaller.getIMAGE_WIDTH() == 0) x_head = FIELD_WIDTH;
